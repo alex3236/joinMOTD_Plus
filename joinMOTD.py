@@ -3,23 +3,37 @@ import json
 from mcdreforged.api.all import *
 import os
 from random import choice
-from daycount import getday
-from re import search
+from JsonDataAPI import Json
+from RTextEXP import rtext_formmat
 
 PLUGIN_METADATA = {
     'id': 'join_motd_plus',
-    'version': '2.0.0',
+    'version': '2.1.0',
     'name': 'joinMOTD++',
     'description': '一个为 MCDR 设计的 MOTD 插件。在玩家进入服务器时展示内容。',
     'author': 'Alex3236',
-    'link': 'https://github.com/eagle3236'
+    'link': 'https://github.com/eagle3236/joinMOTD_Plus'
 }
-config = {}
+
+config = Json(PLUGIN_METADATA['name'], 'config')
+config_folder = 'config/joinMOTD'
 cdn = 'https://cdn.jsdelivr.net/gh/hitokoto-osc/sentences-bundle@latest/sentences/{}.json'
+daycount_plugins = ['daycount', 'day_count_reforged', 'daycount_nbt']
+
+def get_day(server: ServerInterface):
+    global daycount_plugins
+    for i in daycount_plugins:
+        try:
+            return server.get_plugin_instance(i).getday()
+        except:
+            pass
+        finally:
+            raise ModuleNotFoundError('找不到任何可用的 daycount 实例，请检查是否安装相关插件。') from None
 
 
 def check_eula():
-    with open('config/joinMOTD/eula.txt', 'r', encoding='utf8') as f:
+    global config_folder
+    with open(f'{config_folder}/eula.txt', 'r', encoding='utf8') as f:
         eula = f.readlines(1)[0].strip()[5:]
     if eula == 'true':
         return True
@@ -31,22 +45,49 @@ def check_eula():
 
 def load_config():
     global config
-    with open('config/joinMOTD/config.json', 'r', encoding='utf-8') as f:
-        config = json.load(f)
+    if config == {}:
+        config["eula"] = False
+        config["day_text"] = "今天是服务器在线的第//$day||%c='yellow' %s='bold'//天。"
+        
+        config["random_text"] = ["随机字符串1", "随机字符串2"]
+        config["random_text_format"] = "[//随机字符串||%c='equa' %s='bold'//] $random"
+
+        config["hitokoto_type"] = "a"
+        config["hitokoto_text"] = "[//一言||%c='equa' %s='bold'//] $hitokoto"
+
+        config["motd"]: "$player||%c='yellow' %s='bold'//,欢迎回到//服务器||%c='yellow'//!" 
+
+        config["bungee_list"] = {"$子服1": "server1",  "子服2": "server2"}
+        config["display_list"] = ["motd", "day", "random_text", "hitokoto", "bungee_list"]
+        
+        config.save()
+
+
+def need_download():
+    global config_folder
+    need_download = False
+    try:
+        with open(f'{config_folder}/hitokoto.json', 'r') as f:
+            if f.read().strip() == '':
+                need_download = True
+    except FileNotFoundError:
+        need_download = True
+    finally:
+        return need_download
 
 
 @new_thread('joinMOTD')
 def download_hitokoto():
-    with open('config/joinMOTD/hitokoto.txt', 'w', encoding='utf8') as f:
-        f.write(requests.get(cdn.format(f"{config['hitokoto_type']}")).text)
-
+    global config_folder
+    with open(f'{config_folder}/hitokoto.json', 'w', encoding='utf8') as f:
+        f.write(requests.get(cdn.format(config['hitokoto_type'])).text)
 
 def get_local_hitokoto():
-    global config
-    if not os.path.exists('config/joinMOTD/hitokoto.txt'):
+    global config, config_folder
+    if need_download:
         download_hitokoto()
         return get_local_hitokoto()
-    with open('config/joinMOTD/hitokoto.txt', 'r', encoding='utf-8') as f:
+    with open(f'{config_folder}/hitokoto.json', 'r', encoding='utf-8') as f:
         i = choice(json.load(f))
         hitokoto_text = config['hitokoto_text']\
             .replace('$hitokoto', i['hitokoto'])\
@@ -80,34 +121,6 @@ def get_bungee_text():
     return RTextList(*temp)
 
 
-def rtext_formmat(text: str, new=True):
-    if '||' not in text:
-        return text
-    if '//' in text:
-        rtext_list = []
-        for i in text.split('//'):
-            rtext_list.append(rtext_formmat(i, new=False))
-        rtext_list.append('\n')
-        return RTextList(*rtext_list)
-    text = text.split('||')
-    rtext_express = text[1]
-    style = search(r"%s=['\"](.*?)['\"]", rtext_express)
-    color = search(r"%c=['\"](.*?)['\"]", rtext_express)
-    hover = search(r"%h=['\"](.*?)['\"]", rtext_express)
-    text = RText(text[0])
-    if style is not None:
-        for i in style.group(1).split(' '):
-            if i in RStyle.__members__:
-                text.set_styles(eval(f'RStyle.{i}'))
-    if color is not None:
-        color = color.group(1)
-        if color in RColor.__members__:
-            text.set_color(eval(f'RColor.{color}'))
-    if hover is not None:
-        text.set_hover_text(hover.group(1))
-    return RTextList(text, '\n') if new else text
-
-
 def display_motd(server, player):
     global config
     text = ['-' * 40]
@@ -115,11 +128,11 @@ def display_motd(server, player):
         if i == 'motd':
             text.append(rtext_formmat(config['motd'].replace('$player', player)))
         elif i == 'day':
-            text.append(rtext_formmat(config['day_text'].replace('$day', str(getday()))))
+            text.append(rtext_formmat(config['day_text'].replace('$day', str(get_day(server)))))
         elif i == 'hitokoto':
             text.append(get_local_hitokoto())
         elif i == 'random_text':
-            text.append(rtext_formmat(get_random_text()))
+            text.append(rtext_formmat(config['random_text_format'].replace('$random', get_random_text())))
         elif i == 'bungee_list':
             text.append(get_bungee_text())
     text.append('-' * 40)
@@ -140,16 +153,18 @@ def on_load(server: ServerInterface, old):
     server.register_help_message('!!motd', '重载 joinMOTD++ 配置文件')
     server.logger.info('[joinMOTD]加载配置文件...')
     load_config()
-    if not config['check_update'] or 'hitokoto' in config['display_list'] and not check_eula():
-        raise ConnectionAbortedError('EULA 状态为 False。无法开启检查更新/一言功能。')
-    server.logger.info('[joinMOTD]解析一言文件...')
-    get_local_hitokoto()
+    if not 'hitokoto' in config['display_list'] and config['eula']:
+        raise ConnectionAbortedError('EULA 状态为 False。无法开启检查更新/一言功能。') from None
+    if need_download():
+        server.logger.info('[joinMOTD]下载一言文件...')
+        download_hitokoto()
+    
 
 
 def on_player_joined(server: ServerInterface, player: str, info: Info):
     try:
         if not is_chinese(player) and not player.startswith('bot_'):
             display_motd(server, player)
-    except Exception:
-        server.tell(player, '很抱歉，joinMOTD出现错误。请联系服务器管理员')
+    except Exception as e:
+        server.tell(player, f'很抱歉，joinMOTD++出现错误。请联系服务器管理员。错误代码：\n{e}')
         raise
