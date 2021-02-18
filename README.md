@@ -20,7 +20,7 @@
 
 
 ## 配置文件
-配置文件为 **config/joinMOTD** 目录的 **config.json**。该文件默认内容如下:   
+第一次运行时，应该生成配置文件 **config/joinMOTD/config.json**。该文件默认内容如下:   
 ```json
 {
     "day_text": "今天是服务器在线的第//$day||%c='yellow' %s='bold'//天。",
