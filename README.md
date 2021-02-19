@@ -124,6 +124,6 @@ $hitokoto —— $from \n此一言由网友\"$creator\"提供
 
 ### RText 说明
 `hitokoto_text`，`motd`，`day_text` 和 `random_text` 都支持 RText 表达式。  
-详见[表达式说明]()
+详见[表达式说明](https://github.com/eagle3236/rtext-exp)
 
 
