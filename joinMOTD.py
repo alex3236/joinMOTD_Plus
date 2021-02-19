@@ -14,7 +14,7 @@ PLUGIN_METADATA = {
     'dependencies': {
         'json_data_api': '*',
         'rtext_exp': '*'
-    }
+    },
     'author': 'Alex3236',
     'link': 'https://github.com/eagle3236/joinMOTD_Plus'
 }
