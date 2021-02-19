@@ -11,6 +11,10 @@ PLUGIN_METADATA = {
     'version': '2.1.0',
     'name': 'joinMOTD++',
     'description': '一个为 MCDR 设计的 MOTD 插件。在玩家进入服务器时展示内容。',
+    'dependencies': {
+        'json_data_api': '*',
+        'rtext_exp': '*'
+    }
     'author': 'Alex3236',
     'link': 'https://github.com/eagle3236/joinMOTD_Plus'
 }
