@@ -124,29 +124,7 @@ $hitokoto —— $from \n此一言由网友\"$creator\"提供
 
 
 ### RText 说明
-`hitokoto_text`，`motd`，`day_text` 和 `random_text` 都支持 RText。
-**注意**：RText为阉割版，仅支持指定 `hover_text`，`color` 和 `style`。
-**另**：尽管使用样式代码似乎更加简单，但样式代码无法设置鼠标悬停文字，且 RText 表达式可以在不看样式表的情况下更快速地辨认和设定样式。请酌情选用——当然，同时用应该也不会有什么大问题 :P
+`hitokoto_text`，`motd`，`day_text` 和 `random_text` 都支持 RText 表达式。  
+详见[表达式说明]()
 
-
-#### 使用方法
-这是一个使用了 RText 的 `motd` 参数：  
-```bash
-$player||%c='yellow' %s='bold'//，欢迎回到服务器！||%h='这是鼠标悬停文字' %s='underline bold'
-```
-
-其中，`||` 将正常文字与 RText 表达式分开；`// ` 将两个 RText 表达式分开。
- - **%h** 代表 hover_text，即鼠标悬停文字。  
-​**参数**：需要作为悬停文字的字符串  
-
- - **%s** 代表 RStyle，即文字样式。如需多种样式，请用半角空格作为分割。  
-​**可用参数**：`bold`(加粗)  `italic`(斜体)  `underlined`(下划线)  `strikethrough`(删除线)  `obfuscated`(乱码)  
-
- - **%c** 代表 RColor，即文字颜色。  
-​**可用参数**：`black`  `dark_blue`  `dark_green`  `dark_aqua`  `dark_red`  `dark_purple`  `gold`  `gray`  `dark_gray`  `blue`  `green`  `aqua`  `red`  `light_purple`  `yellow`  `white`  `reset`  
-
-**注意**：一个表达式中不能同时存在多个相同参数。  
-
-综上，这个表达式的最终效果如下：  
-![RText 效果](https://ftp.bmp.ovh/imgs/2021/02/49b51431621b6f93.png)
 

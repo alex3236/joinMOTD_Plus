@@ -15,7 +15,7 @@ PLUGIN_METADATA = {
     'link': 'https://github.com/eagle3236/joinMOTD_Plus'
 }
 
-config = Json(PLUGIN_METADATA['name'], 'config')
+config = Json('joinMOTD', 'config')
 config_folder = 'config/joinMOTD'
 cdn = 'https://cdn.jsdelivr.net/gh/hitokoto-osc/sentences-bundle@latest/sentences/{}.json'
 daycount_plugins = ['daycount', 'day_count_reforged', 'daycount_nbt']
@@ -27,20 +27,7 @@ def get_day(server: ServerInterface):
             return server.get_plugin_instance(i).getday()
         except:
             pass
-        finally:
-            raise ModuleNotFoundError('找不到任何可用的 daycount 实例，请检查是否安装相关插件。') from None
-
-
-def check_eula():
-    global config_folder
-    with open(f'{config_folder}/eula.txt', 'r', encoding='utf8') as f:
-        eula = f.readlines(1)[0].strip()[5:]
-    if eula == 'true':
-        return True
-    elif eula == 'false':
-        return False
-    else:
-        raise SyntaxError('EULA 文件格式错误。请检查 eula.txt。详情请见 https://github.com/eagle3236')
+    raise ModuleNotFoundError('找不到任何可用的 daycount 实例，请检查是否安装相关插件。')
 
 
 def load_config():
@@ -55,7 +42,7 @@ def load_config():
         config["hitokoto_type"] = "a"
         config["hitokoto_text"] = "[//一言||%c='equa' %s='bold'//] $hitokoto"
 
-        config["motd"]: "$player||%c='yellow' %s='bold'//,欢迎回到//服务器||%c='yellow'//!" 
+        config["motd"] = "$player||%c='yellow' %s='bold'//,欢迎回到//服务器||%c='yellow'//!" 
 
         config["bungee_list"] = {"$子服1": "server1",  "子服2": "server2"}
         config["display_list"] = ["motd", "day", "random_text", "hitokoto", "bungee_list"]
@@ -84,7 +71,7 @@ def download_hitokoto():
 
 def get_local_hitokoto():
     global config, config_folder
-    if need_download:
+    if need_download():
         download_hitokoto()
         return get_local_hitokoto()
     with open(f'{config_folder}/hitokoto.json', 'r', encoding='utf-8') as f:
