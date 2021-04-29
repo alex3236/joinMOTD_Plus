@@ -41,6 +41,7 @@
 `hitokoto`: 显示一言。  
 `random_list`: 显示自定义随机句子。  
 `bungee_list`: 显示BungeeCord 子服列表。  
+`\n`：额外的换行，即显示一个空行作为分割线。
 
 
 ### 一言 参数说明
