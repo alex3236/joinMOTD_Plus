@@ -4,16 +4,15 @@ from mcdreforged.api.all import *
 import os
 from random import choice
 from JsonDataAPI import Json
-from RTextEXP import rtext_formmat
+# from RTextEXP import rtext_formmat
 
 PLUGIN_METADATA = {
     'id': 'join_motd_plus',
-    'version': '2.1.0',
+    'version': '2.1.1',
     'name': 'joinMOTD++',
     'description': '一个为 MCDR 设计的 MOTD 插件。在玩家进入服务器时展示内容。',
     'dependencies': {
-        'json_data_api': '*',
-        'rtext_exp': '*'
+        'json_data_api': '*'
     },
     'author': 'Alex3236',
     'link': 'https://github.com/eagle3236/joinMOTD_Plus'
@@ -38,15 +37,15 @@ def load_config():
     global config
     if config == {}:
         config["eula"] = False
-        config["day_text"] = "今天是服务器在线的第//$day||%c='yellow' %s='bold'//天。"
+        config["day_text"] = "今天是§b服务器§r在线的第 §e$day§r 天。"
         
         config["random_text"] = ["随机字符串1", "随机字符串2"]
-        config["random_text_format"] = "[//随机字符串||%c='equa' %s='bold'//] $random"
+        config["random_text_format"] = "[§b随机字符串§r] $random"
 
         config["hitokoto_type"] = "a"
-        config["hitokoto_text"] = "[//一言||%c='equa' %s='bold'//] $hitokoto"
+        config["hitokoto_text"] = "[§b一言§r] $hitokoto"
 
-        config["motd"] = "$player||%c='yellow' %s='bold'//,欢迎回到//服务器||%c='yellow'//!" 
+        config["motd"] = "§e§l$player§r, 欢迎回到§b服务器§r!" 
 
         config["bungee_list"] = {"$子服1": "server1",  "子服2": "server2"}
         config["display_list"] = ["motd", "day", "random_text", "hitokoto", "bungee_list"]
@@ -84,7 +83,7 @@ def get_local_hitokoto():
             .replace('$hitokoto', i['hitokoto'])\
             .replace('$from', i['from'])\
             .replace('$creator', i['creator'])
-    return rtext_formmat(hitokoto_text)
+    return hitokoto_text
 
 
 def get_random_text():
@@ -117,13 +116,13 @@ def display_motd(server, player):
     text = ['-' * 40]
     for i in config['display_list']:
         if i == 'motd':
-            text.append(rtext_formmat(config['motd'].replace('$player', player)))
+            text.append(config['motd'].replace('$player', player))
         elif i == 'day':
-            text.append(rtext_formmat(config['day_text'].replace('$day', str(get_day(server)))))
+            text.append(config['day_text'].replace('$day', str(get_day(server))))
         elif i == 'hitokoto':
             text.append(get_local_hitokoto())
         elif i == 'random_text':
-            text.append(rtext_formmat(config['random_text_format'].replace('$random', get_random_text())))
+            text.append(config['random_text_format'].replace('$random', get_random_text()))
         elif i == 'bungee_list':
             text.append(get_bungee_text())
     text.append('-' * 40)
