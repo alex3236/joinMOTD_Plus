@@ -125,10 +125,11 @@ def display_motd(server, player):
             text.append(config['random_text_format'].replace('$random', get_random_text()))
         elif i == 'bungee_list':
             text.append(get_bungee_text())
+        elif i == '\n':
+            text.append('')                              
     text.append('-' * 40)
     for i in text:
         server.tell(player, i)
-        server.tell(player, ' ')
 
 
 def is_chinese(string):
