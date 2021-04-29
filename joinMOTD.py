@@ -128,6 +128,7 @@ def display_motd(server, player):
     text.append('-' * 40)
     for i in text:
         server.tell(player, i)
+        server.tell(player, ' ')
 
 
 def is_chinese(string):
