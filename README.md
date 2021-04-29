@@ -1,15 +1,11 @@
 # joinMOTD++  
 一个为 MCDR 设计的 MOTD 插件。在玩家进入服务器时展示内容。  
-**注意：建议从 Releases 页面下载，而不是直接下载源代码。**
 
 
 ## 前置安装
 1.前置插件
 - [JsonDataAPI](https://github.com/zhang-anzhi/MCDReforgedPlugins/blob/master/JsonDataAPI): 用于读写配置文件 
-- [RTextEXP](https://github.com/eagle3236/rtext-exp)：识别 RText 表达式  
 - [daycount-NBT](https://github.com/eagle3236/daycount-NBT) 或 [daycountR](https://github.com/Van-Involution/DayCountR) （**可选**）：读取开服日期  
-
-如果你是从 **Releases 页面** 下载此插件，那么以上前置插件将一同被下载，到手即用；但可能不是最新版本。
 
 2.前置第三方库 `requests`：下载一言
 - 使用 `pip install requests` 安装即可。
@@ -20,29 +16,7 @@
 
 
 ## 配置文件
-第一次运行时，应该生成配置文件 **config/joinMOTD/config.json**。该文件默认内容如下:   
-```json
-{
-    "day_text": "今天是服务器在线的第//$day||%c='yellow' %s='bold'//天。",
-    "random_text": [],
-    "random_text_format": "%c='red'",
-    "hitokoto_type": "a",
-    "hitokoto_text": "[//一言||%c='equa' %s='bold'//] $hitokoto",
-    "motd": "$player||%c='yellow' %s='bold'//,欢迎回到//服务器||%c='yellow'//!" ,
-    "bungee_list": {
-        "$子服1": "server1", 
-        "子服2": "server2"
-    },
-    
-    "display_list": [
-        "motd",
-        "day",
-        "hitokoto",
-        "bungee_list"
-    ]
-}
-```
-
+第一次运行时，应该生成配置文件 **config/joinMOTD/config.json**。
 
 ### 配置项
 `check_update`: 是否自动检查更新。详见 **eula.txt**。  
@@ -122,8 +96,8 @@ $hitokoto —— $from \n此一言由网友\"$creator\"提供
 ```
 
 
-### RText 说明
-`hitokoto_text`，`motd`，`day_text` 和 `random_text` 都支持 RText 表达式。  
-详见[表达式说明](https://github.com/eagle3236/rtext-exp)
+### 颜色格式说明
+从 2.1.1 版本起，不再支持 RText 表达式。  
+作为替代，请使用 [格式化代码](https://minecraft.fandom.com/zh/wiki/%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%BB%A3%E7%A0%81?variant=zh-sg) 以显示颜色。
 
 
