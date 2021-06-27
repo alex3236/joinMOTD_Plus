@@ -8,7 +8,7 @@ from JsonDataAPI import Json
 
 PLUGIN_METADATA = {
     'id': 'join_motd_plus',
-    'version': '2.2.0',
+    'version': '2.2.1',
     'name': 'joinMOTD++',
     'description': '一个为 MCDR 设计的 MOTD 插件。在玩家进入服务器时展示内容。',
     'dependencies': {
@@ -99,7 +99,7 @@ def get_random_text():
 
 
 def get_bungee_text():
-    temp = ['\n']
+    temp = []
     for i in config['bungee_list']:
         if i.startswith('$'):
             temp.append(RTextList('[', RText(i[1:])
