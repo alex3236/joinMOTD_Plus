@@ -164,7 +164,7 @@ def register_command(server: ServerInterface):
 
 def on_load(server: ServerInterface, old):
     load_config()
-    register_command()
+    register_command(server)
     # if 'hitokoto' not in config['display_list'] and config['eula']:
     #     raise ConnectionAbortedError('EULA 状态为 False。无法开启检查更新/一言功能。') from None
     if need_download():
