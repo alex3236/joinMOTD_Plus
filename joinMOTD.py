@@ -21,6 +21,7 @@ PLUGIN_METADATA = {
 cdn = 'https://cdn.jsdelivr.net/gh/hitokoto-osc/sentences-bundle@latest/sentences/{}.json'
 daycount_plugins = ['daycount_nbt']
 # daycount_plugins.append('day_count_reforged')
+config_folder = 'joinMOTD'
 
 def get_day(server: ServerInterface):
     global daycount_plugins
@@ -58,7 +59,6 @@ def load_config(source=None):
 
 
 def need_download():
-    global config_folder
     need = False
     try:
         with open(f'{config_folder}/hitokoto.json', 'r') as f:
@@ -72,13 +72,11 @@ def need_download():
 
 @new_thread('joinMOTD')
 def download_hitokoto():
-    global config_folder
     with open(f'{config_folder}/hitokoto.json', 'w', encoding='utf8') as f:
         f.write(requests.get(cdn.format(config['hitokoto_type'])).text)
 
 
 def get_local_hitokoto():
-    global config, config_folder
     if need_download():
         download_hitokoto()
         return get_local_hitokoto()
@@ -92,7 +90,6 @@ def get_local_hitokoto():
 
 
 def get_random_text():
-    global config
     if isinstance(config['random_text'], list):
         return choice(config['random_text'])
     else:
@@ -102,7 +99,6 @@ def get_random_text():
 
 
 def get_bungee_text():
-    global config
     temp = ['\n']
     for i in config['bungee_list']:
         if i.startswith('$'):
@@ -118,7 +114,6 @@ def get_bungee_text():
 
 
 def display_motd(server, player, display_list=None):
-    global config
     text = ['-' * 40]
     if display_list is None:
         display_list = config['display_list']
@@ -158,8 +153,6 @@ def is_chinese(string):
 
 
 def register_command(server: ServerInterface):
-    global config
-
     def get_literal_node(literal):
         lvl = config['permission'].get(literal, 0)
         return Literal(literal).requires(lambda src: src.has_permission(lvl), lambda: '权限不足')
@@ -170,7 +163,6 @@ def register_command(server: ServerInterface):
 
 
 def on_load(server: ServerInterface, old):
-    global config
     load_config()
     register_command()
     # if 'hitokoto' not in config['display_list'] and config['eula']:
