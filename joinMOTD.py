@@ -21,7 +21,9 @@ PLUGIN_METADATA = {
 cdn = 'https://cdn.jsdelivr.net/gh/hitokoto-osc/sentences-bundle@latest/sentences/{}.json'
 daycount_plugins = ['daycount_nbt']
 # daycount_plugins.append('day_count_reforged')
-config_folder = 'joinMOTD'
+
+config = Json('joinMOTD', 'config')
+config_folder = 'config/joinMOTD'
 
 def get_day(server: ServerInterface):
     global daycount_plugins
