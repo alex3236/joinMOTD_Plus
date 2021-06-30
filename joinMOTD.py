@@ -8,7 +8,7 @@ from JsonDataAPI import Json
 
 PLUGIN_METADATA = {
     'id': 'join_motd_plus',
-    'version': '2.2.1',
+    'version': '2.2.2',
     'name': 'joinMOTD++',
     'description': '一个为 MCDR 设计的 MOTD 插件。在玩家进入服务器时展示内容。',
     'dependencies': {
@@ -21,7 +21,7 @@ PLUGIN_METADATA = {
 cdn = 'https://cdn.jsdelivr.net/gh/hitokoto-osc/sentences-bundle@latest/sentences/{}.json'
 daycount_plugins = ['daycount_nbt']
 # daycount_plugins.append('day_count_reforged')
-config_folder = 'joinMOTD'
+config_folder = 'config/joinMOTD'
 
 def get_day(server: ServerInterface):
     global daycount_plugins
