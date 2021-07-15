@@ -1,9 +1,6 @@
 # joinMOTD++  
 一个为 MCDR 设计的 MOTD 插件。在玩家进入服务器时展示内容。  
 
-## 前排提示
-如果可以，请从 **Releases** 页面下载，而非直接从 **Code** 页下载。
-
 ## 前置安装
 1.前置插件
 - [JsonDataAPI](https://github.com/zhang-anzhi/MCDReforgedPlugins/blob/master/JsonDataAPI)：读写配置文件 
