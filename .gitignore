@@ -1,4 +1,6 @@
 
 .vscode
 config
+dist
+build*
 *.zip
