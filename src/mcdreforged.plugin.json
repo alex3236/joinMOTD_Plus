@@ -3,8 +3,8 @@
     "version": "3.0.0",
     "name": "joinMOTD++",
     "description": {
-        "en_us": "在玩家进入服务器时展示内容。（特色功能++）",
-        "zh_cn": "Display content when players join the server. (with many useful features)"
+        "en_us": "Display content when players join the server. (with many useful features)",
+        "zh_cn": "在玩家进入服务器时展示内容。（特色功能++）"
     },
     "dependencies": {
         "mcdreforged": ">=2.0.1"
