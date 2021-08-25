@@ -1,0 +1,9 @@
+join_motd_plus.help_motd: \[joinMOTD++\] 显示/重载 MOTD
+join_motd_plus.help_server: \[joinMOTD++\] 显示服务器列表
+join_motd_plus.current_server: 当前服务器
+join_motd_plus.click_to_join: 点击加入服务器 §b{}
+join_motd_plus.perm_denied: 权限不足
+join_motd_plus.global_failed: §cMOTD 获取失败
+join_motd_plus.json_failed: §c网络 Json 获取失败
+join_motd_plus.day_failed: §c天数获取失败
+join_motd_plus.random_failed: §c随机文本获取失败

@@ -1,83 +1,153 @@
-# joinMOTD++  
-一个为 MCDR 设计的 MOTD 插件。在玩家进入服务器时展示内容。  
+**中文** | [English](https://github.com/eagle3236/joinMOTD_Plus/blob/main/README-en.md)
 
-## 前置安装
-1.前置插件
-- [JsonDataAPI](https://github.com/zhang-anzhi/MCDReforgedPlugins/blob/master/JsonDataAPI)：读写配置文件 
-- [daycount-NBT](https://github.com/eagle3236/daycount-NBT) ~~或 [daycountR](https://github.com/Van-Involution/DayCountR)~~ （**可选**）：读取开服日期  
+# joinMOTD++
 
-2.前置第三方库 `requests`：下载一言
-- 使用 `(python -m) pip install requests` 安装即可
+[![](https://pic.stackoverflow.wiki/uploadImages/117/24/20/154/2021/08/24/23/08/8cd61849-6a34-4e2d-ad3a-c6056adef05e.svg)](https://github.com/Fallen-Breath/MCDReforged)
 
-## 关于 daycountR
-因为某些原因（详见[此处](https://github.com/eagle3236/daycount-NBT#%E5%90%90%E6%A7%BD)），joinMOTD++ 不再对 daycountR 提供支持。  
-[daycount-NBT](https://github.com/eagle3236/daycount-NBT) 具有 daycountR 做得到和做不到的功能。  
-如确需要使用，可将 joinMOTD.py 的第 25 行前的 `#` 去除。使用 daycontR 造成的任何问题不提供帮助。
+一个为 MCDR 设计的 MOTD 插件。在玩家进入服务器时展示内容。
+
+## 前置
+
+1. MCDR
+
+- MCDReforged >= 2.0.1
+
+2. 前置插件
+
+- 任意可以输出开服天数文本的插件，详见后文。如 [daycount-NBT](https://github.com/eagle3236/daycount-NBT)。
+
+3. 前置第三方库
+
+- `requests`（实现自定义在线 Json 功能）
 
 ## 插件效果
-可能与当前版本的效果存在些许差别。
-![插件效果](https://ftp.bmp.ovh/imgs/2021/02/7101604f12ce5a99.png)
+
+可能与最新版本的效果存在些许差别。
+
+![插件效果](https://upload.cc/i1/2021/08/24/t6OjbN.png)
 
 ## 指令
-`!!motd`: 重载配置文件。  
+
+`!!motd`: 显示 MOTD。
+
+`!!motd reload`: 重载插件。
+
 `!!server`: 显示服务器列表。
 
 ## 配置文件
-第一次运行时，应该生成配置文件 **config/joinMOTD/config.json**。该文件内容如下：
-```json
+
+第一次运行时，插件会生成配置文件 **config/join_motd_plus/config.json**。该文件内容如下：
+
+```json5
 {
-    "day_text": "今天是§b服务器§r在线的第 §e$day§r 天。",
-    "random_text": ["随机字符串1", "随机字符串2"],
-    "random_text_format": "[§b随机字符串§r] $random",
-    "hitokoto_type": "a",
-    "hitokoto_text": "[§b一言§r] $hitokoto",
-    "motd": "§e§l$player§r, 欢迎回到§b服务器§r!" ,
-    "bungee_list": {
-        "$子服1": "server1", 
-        "子服2": "server2"
+    "permission": { // 指令权限
+        "motd": 0,
+        "reload": 3, 
+        "server": 0
     },
-    
-    "display_list": [
-        "motd",
-        "day", "\n",
-        "random_text",
-        "hitokoto", "\n",
-        "bungee_list"
+    "display_list": [ // 显示列表
+        "motd", // 欢迎消息
+        "day", // 天数信息
+        "", // 空行
+        "json:hitokoto", // json:方案名称 代表自定义在线 Json 方案
+        "random:random.txt", // random:文件名 代表自定义随机文本*
+        "[自定义文本] 这是一段没卵用的垃圾话。", // 不符合其他规则的视为自定义固定文本
+        "",
+        "server_list" // 显示服务器选择列表
     ],
-    "permission": {
-      "!!motd": 3,
-      "!!server": 0
+    "module_settings": { // 子模块设置
+        "motd": { // 欢迎消息设置
+            "text": "§e§l$player§r, 欢迎回到§b服务器§r!"
+        },
+        "day": { // 天数信息设置
+            "plugin": "daycount_nbt", // 用于获取天数消息的插件 ID
+            "entry": "get_day_text" // 用于获取天数消息的方法入口*
+        },
+        "server_list": { // 服务器列表设置
+            "$§l子服1": "server1", // 开头为 $ 代表当前服务器
+            "§a子服2": "server2"
+        },
+        "random": { // 随机文本设置
+            "prefix": "[§b随机文本§r]" // 前缀*
+        }
     }
 }
 ```
 
-### 配置项
-`motd`: MOTD欢迎语内容。 **$player** 代表玩家ID。  
- 
-`day_text`: 开服天数的显示格式。 **$day** 代表天数。  
+### 注意
 
-`random_text`: 自定义随机句子。可以是一个位于 **config/joinMOTD** 文件夹的文件名，或一个字符串列表。若为文件名，则该文件格式应为**每行一个自定义句子**。  
-`random_text_format`：随机句子格式。 **$random** 代表句子。
+1. `display_list/random`: 对应的文件必须是一个与配置文件同文件夹的、`UTF-8` 格式的文件，每行一句话。
+2. `module_settings/day/entry`: 必须为指定插件的一个无需实参的方法，返回已经经过格式化的天数信息（比如“这是服务器开服的第5天”）。
+3. `random/prefix`: 此处设置的为全局前缀。如果想让每句文本有不同的前缀，可将其设置为空，并在随机文本对应的文件中自行添加前缀。
+4. 此处使用 json5 格式高亮以对配置项进行解释，实际配置格式为 json, 不可使用注释。
 
-`hitokoto_type`: 一言类型。详见 [一言 相关说明](Hitokoto.md)。  
-`hitokoto_text`: 一言格式。详见 [一言 相关说明](Hitokoto.md)。
-  
-`bungee_list`: BC服务器列表。在子服名称前加 `$` 表示玩家当前所在的子服。  
-`display_list`: 信息显示列表。将按照列表顺序依次显示数据。详见下方说明部分。
+## 自定义在线 Json
 
-`permission`: 指令执行所需权限。
+joinMOTD++ 支持自定义在线 Json, 即从网络上获取 Json 格式的文本并得到所需的值。
 
+第一次运行时，插件会生成默认配置文件 **config/join_motd_plus/json_list.json**：
 
-### 信息显示列表 可用选项
-`motd`: 显示MOTD欢迎语。  
-`day`: 显示开服天数。需要 [daycount-NBT](https://github.com/eagle3236/daycount-NBT) ~~或[daycountR](https://github.com/Van-Involution/DayCountR)~~ 插件作为前置。  
-`hitokoto`: 显示一言。  
-`random_list`: 显示自定义随机句子。  
-`bungee_list`: 显示BungeeCord 子服列表。  
-`\n`：额外的换行，即显示一个空行，可用作分割线。  
-`任意字符`: 将字符作为单独一行显示给玩家。
+```json
+{
+    "hitokoto": {
+        "prefix": "[§a一言§r]",
+        "addr": "https://v1.hitokoto.cn",
+        "path": "hitokoto"
+    }
+}
+```
 
+其中定义了一个开箱自带的自定义 Json, 即一言 API。
 
-### 颜色格式说明
-为了保证兼容性，从 2.1.1 版本起，不再支持 RText 表达式。  
-作为替代，请使用 [格式化代码](https://minecraft.fandom.com/zh/wiki/%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%BB%A3%E7%A0%81?variant=zh-sg) 以显示颜色。
+每个配置都是以配置名作为名称的 `dict`。
+
+| 配置项 | 类型 | 作用              |
+| ------ | ---- | :---------------- |
+| prefix | str  | 输出时的前缀      |
+| addr   | str  | 要获取的 Web 地址 |
+| path   | str  | Json 路径         |
+
+### Json 路径
+
+相信你可以通过这个例子看出些什么：
+
+**原 Json:**
+
+```json
+{
+    "code":0,
+    "message":"0",
+    "ttl":1,
+    "data":{
+        "mid":275212628,
+        "name":"Alex3236",
+        "face":"http://i2.hdslb.com/bfs/face/3d0ffe0e1b23ccaada1f779d7993226f1db16a75.jpg",
+        "sign":"不要因为走得太远，就忘了当初为什么出发。 GIthub@eagle3236",
+        "rank":10000,
+        "level":5,
+        "fans_badge":false,
+	"official":{
+            "role":0,
+            "title":"",
+            "desc":"",
+            "type":-1
+        }
+    }
+}
+```
+
+**Json 路径:**
+
+```plain
+data/official/role
+```
+
+**返回值:**
+
+```
+0
+```
+
+## 颜色格式
+
+所有对玩家显示的文本都可以使用 [格式化代码](https://minecraft.fandom.com/zh/wiki/%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%BB%A3%E7%A0%81) 以显示颜色和特殊格式。
