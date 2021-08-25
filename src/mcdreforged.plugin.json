@@ -2,7 +2,10 @@
     "id": "join_motd_plus",
     "version": "3.0.0",
     "name": "joinMOTD++",
-    "description": "一个为 MCDR 设计的 MOTD 插件。在玩家进入服务器时展示内容。",
+    "description": {
+        "en_us": "在玩家进入服务器时展示内容。（特色功能++）",
+        "zh_cn": "Display content when players join the server. (with many useful features)"
+    },
     "dependencies": {
         "mcdreforged": ">=2.0.1"
     },
