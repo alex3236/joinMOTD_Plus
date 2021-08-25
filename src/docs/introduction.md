@@ -5,3 +5,5 @@ Features:
 - Support Json grabbing from the web
 - Compatible with most days fetching plugins
 - ...
+
+:warning: **Read README in repository before use!**
