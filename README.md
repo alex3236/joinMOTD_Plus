@@ -9,7 +9,7 @@
 
 1. MCDR
 
-- MCDReforged >= 2.0.1
+- MCDReforged >= 2.2.0
 
 2. 前置插件
 
