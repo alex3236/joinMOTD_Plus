@@ -1,14 +1,17 @@
 {
     "id": "join_motd_plus",
-    "version": "3.0.0",
+    "version": "3.1.0",
     "name": "joinMOTD++",
     "description": {
         "en_us": "Display content when players join the server. (with many useful features)",
         "zh_cn": "在玩家进入服务器时展示内容。（特色功能++）"
     },
     "dependencies": {
-        "mcdreforged": ">=2.0.1"
+        "mcdreforged": ">=2.2.0"
     },
+    "resources": [
+        "lang"
+    ], 
     "author": "Alex3236",
     "link": "https://github.com/eagle3236/joinMOTD_Plus"
 }

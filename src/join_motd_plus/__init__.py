@@ -23,6 +23,7 @@ def day(server: ServerInterface):
     try:
         return getattr(server.get_plugin_instance(config.module_settings['day']['plugin']), config.module_settings['day']['entry'])()
     except Exception:
+        print('天数获取失败')
         print_exc()
         return server.tr('join_motd_plus.day_failed')
 
@@ -40,7 +41,7 @@ def server_list(server: ServerInterface):
         else:
             output.append(RTextList(
                 '[',
-                RText(i).h(server.tr('join_motd_plus.click_to_join').format(l[i])).c(RAction.run_command, f'/server {l[i]}'),
+                RText(i).h(server.tr('join_motd_plus.click_to_join').replace('server', l[i])).c(RAction.run_command, f'/server {l[i]}'),
                 '] '
             ))
     return RTextList(*output)
@@ -60,6 +61,7 @@ def parse_json(server: ServerInterface, addr, path):
             req_json = req_json.get(i, dict())
         return req_json
     except ValueError:
+        server.log.error('自定义 Json 解析错误')
         print_exc()
         return req
 
@@ -96,6 +98,7 @@ def get_random(server: PluginServerInterface, name):
         with open(path, 'r', encoding='utf8') as f:
             output = random.choice(f.readlines()).strip()
     except Exception:
+        server.log.error('随机文本获取失败')
         print_exc()
         output = server.tr('join_motd_plus.random_failed')
     finally:
@@ -103,25 +106,22 @@ def get_random(server: PluginServerInterface, name):
 
 
 def display_all(server: ServerInterface, player: str):
-    try:
-        output = ['-'*40]
-        for i in config.display_list:
-            i = i.strip()
-            if i == 'motd':
-                output.append(motd(player))
-            elif i == 'day':
-                output.append(day(server))
-            elif i == 'server_list':
-                output.append(server_list(server))
-            elif i.startswith('json'):
-                output.append(get_json(server, i.split(':')[1]))
-            elif i.startswith('random'):
-                output.append(get_random(server, i.split(':')[1]))
-            else:
-                output.append(i)
-        output.append('-'*40)
-    except Exception:
-        output = [server.tr('join_motd_plus.global_failed')]
+    output = ['-'*40]
+    for i in config.display_list:
+        i = i.strip()
+        if i == 'motd':
+            output.append(motd(player))
+        elif i == 'day':
+            output.append(day(server))
+        elif i == 'server_list':
+            output.append(server_list(server))
+        elif i.startswith('json'):
+            output.append(get_json(server, i.split(':')[1]))
+        elif i.startswith('random'):
+            output.append(get_random(server, i.split(':')[1]))
+        else:
+            output.append(i)
+    output.append('-'*40)
     
     for i in output:
         server.tell(player, i)

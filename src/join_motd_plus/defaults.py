@@ -22,7 +22,7 @@ class Configure(Serializable):
             'text': '§e§l$player§r, 欢迎回到§b服务器§r!'
         },
         'day': {
-            'plugin': 'daycount-nbt',
+            'plugin': 'daycount_nbt',
             'entry': 'get_day_text'
         },
         'server_list': {

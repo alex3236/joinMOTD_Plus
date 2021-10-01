@@ -1,4 +1,3 @@
-**中文** | [English](https://github.com/eagle3236/joinMOTD_Plus/blob/main/README-en.md)
 
 # joinMOTD++
 

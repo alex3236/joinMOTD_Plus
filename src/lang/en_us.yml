@@ -1,7 +1,7 @@
 join_motd_plus.help_motd: \[joinMOTD++\] Show/reload MOTD
 join_motd_plus.help_server: \[joinMOTD++\] Show server list
 join_motd_plus.current_server: Current Server
-join_motd_plus.click_to_join: Click to join {}
+join_motd_plus.click_to_join: Click to join §bserver
 join_motd_plus.perm_denied: Permission Denied
 join_motd_plus.global_failed: §cFailed to get MOTD
 join_motd_plus.json_failed: §cFailed to get web json
