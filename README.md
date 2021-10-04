@@ -3,8 +3,8 @@
 
 ## 前置安装
 1.前置插件
-- [JsonDataAPI](https://github.com/zhang-anzhi/MCDReforgedPlugins/blob/master/JsonDataAPI)：读写配置文件 
-- [daycount-NBT](https://github.com/eagle3236/daycount-NBT) ~~或 [daycountR](https://github.com/Van-Involution/DayCountR)~~ （**可选**）：读取开服日期  
+- [JsonDataAPI](https://github.com/zhang-anzhi/MCDReforgedPlugins/tree/master/Archive/JsonDataAPI)：读写配置文件 
+- [daycount-NBT](https://github.com/eagle3236/daycount-NBT)：读取开服日期  
 
 2.前置第三方库 `requests`：下载一言
 - 使用 `(python -m) pip install requests` 安装即可
