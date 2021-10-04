@@ -9,11 +9,6 @@
 2.前置第三方库 `requests`：下载一言
 - 使用 `(python -m) pip install requests` 安装即可
 
-## 关于 daycountR
-因为某些原因（详见[此处](https://github.com/eagle3236/daycount-NBT#%E5%90%90%E6%A7%BD)），joinMOTD++ 不再对 daycountR 提供支持。  
-[daycount-NBT](https://github.com/eagle3236/daycount-NBT) 具有 daycountR 做得到和做不到的功能。  
-如确需要使用，可将 joinMOTD.py 的第 25 行前的 `#` 去除。使用 daycontR 造成的任何问题不提供帮助。
-
 ## 插件效果
 可能与当前版本的效果存在些许差别。
 ![插件效果](https://ftp.bmp.ovh/imgs/2021/02/7101604f12ce5a99.png)
