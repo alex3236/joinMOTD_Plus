@@ -61,7 +61,7 @@ def parse_json(server: ServerInterface, addr, path):
             req_json = req_json.get(i, dict())
         return req_json
     except ValueError:
-        server.log.error('自定义 Json 解析错误')
+        server.logger.error('自定义 Json 解析错误')
         print_exc()
         return req
 

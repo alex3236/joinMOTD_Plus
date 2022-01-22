@@ -1,6 +1,6 @@
 {
     "id": "join_motd_plus",
-    "version": "3.1.0",
+    "version": "3.1.1",
     "name": "joinMOTD++",
     "description": {
         "en_us": ":rocket: Display content when players join the server. (with many useful features)",
