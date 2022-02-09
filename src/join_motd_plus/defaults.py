@@ -1,5 +1,8 @@
 from typing import Dict, List
-from mcdreforged.api.all import Serializable
+from mcdreforged.api.all import Serializable, ServerInterface
+
+PLUGIN_ID = 'join_motd_plus'
+psi = ServerInterface.get_instance().as_plugin_server_interface()
 
 class Configure(Serializable):
     permission: Dict[str, int] = {
