@@ -1,6 +1,6 @@
 {
     "id": "join_motd_plus",
-    "version": "3.1.2",
+    "version": "3.1.3",
     "name": "joinMOTD++",
     "description": {
         "en_us": "Display content when players join the server. (with many useful features)",

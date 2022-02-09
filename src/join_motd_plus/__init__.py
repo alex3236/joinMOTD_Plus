@@ -57,7 +57,10 @@ def parse_json(addr, path):
     try:
         req_json = json.loads(req)
         for i in path.strip().split('/'):
-            req_json = req_json.get(i, dict())
+            if type(req_json) == list:
+                req_json = req_json[int(i)]
+            else:
+                req_json = req_json.get(i, dict())
         return req_json
     except ValueError:
         psi.logger.error('自定义 Json 解析错误')
@@ -143,7 +146,7 @@ def tell_console(msg):
 
 
 def on_player_joined(server: ServerInterface, player: str, info: Info):
-    display_all(server, player)
+    display_all(player)
 
 
 def load_config(source=None):
