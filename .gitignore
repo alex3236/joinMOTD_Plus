@@ -1,7 +1,23 @@
-__pycache__
-.venv
+# IDE
 .vscode
-config
-dist
-build*
-*.zip
+
+# Python
+__pycache__
+*.pyc
+/.venv
+/.pytest_cache
+
+# Build
+/build/
+/dist/
+
+# MCDR structure
+/log/
+/logs/
+/config/
+/server
+/plugins
+/*.yml
+
+# Random files
+/test.py
