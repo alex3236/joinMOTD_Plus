@@ -1,12 +1,20 @@
+## :warning: 归档 / Archive
+
+我是傻逼。作为替代，请使用 [TISUnion/joinMOTD](https://github.com/TISUnion/joinMOTD/)。
+
+Alex3236 sucks. Use [TISUnion/joinMOTD](https://github.com/TISUnion/joinMOTD/) instead.
+
+<details>
+
 # 📝 joinMOTD++
 
 [![](https://pic.stackoverflow.wiki/uploadImages/117/24/20/154/2021/08/24/23/08/8cd61849-6a34-4e2d-ad3a-c6056adef05e.svg)](https://github.com/Fallen-Breath/MCDReforged)
 
 一个为 MCDR 设计的 MOTD 插件。在玩家进入服务器时展示内容。
 
-## 🛠️ 重构
+## 🛠️ ~~重构~~
 
-joinMOTD++ 将在不久后重构（兼容现有配置文件）。在此之前，Issue 将仅记录、不解决。敬请期待~
+~~joinMOTD++ 将在不久后重构（兼容现有配置文件）。在此之前，Issue 将仅记录、不解决。敬请期待~~
 
 ## 🚪 前置
 
@@ -158,3 +166,5 @@ data/official/role
 ## 🟢 颜色格式
 
 所有对玩家显示的文本都可以使用 [格式化代码](https://minecraft.fandom.com/zh/wiki/%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%BB%A3%E7%A0%81) 以显示颜色和特殊格式。
+
+</details>
