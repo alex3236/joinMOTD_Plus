@@ -1,8 +1,8 @@
 ## :warning: 归档 / Archive
 
-我是傻逼。作为替代，请使用 [TISUnion/joinMOTD](https://github.com/TISUnion/joinMOTD/)。
+项目已停止支持。作为替代，请使用 [`TISUnion/joinMOTD`](https://github.com/TISUnion/joinMOTD/)。
 
-Alex3236 sucks. Use [TISUnion/joinMOTD](https://github.com/TISUnion/joinMOTD/) instead.
+Project discontinued. Use [`TISUnion/joinMOTD`](https://github.com/TISUnion/joinMOTD/) instead.
 
 <details>
 
